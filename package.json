@@ -4,7 +4,10 @@
     "gh-pages": "^4.0.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "webpack",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "name": "sanpick",
   "version": "1.0.0",
@@ -20,8 +23,7 @@
   },
   "homepage": "https://b-sseung.github.io/SanPickMap/",
   "description": "",
-  "script" :{
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
   }
 }
