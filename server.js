@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = 5500;
 
-app.use(express.static(__dirname + "/js"));
+app.use(express.static(__dirname + "/src", {
+  extensions: ['html', 'htm'],
+}));
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/html/main.html");
+  res.sendFile(__dirname + "/src/main.html");
 });
 
 // 서버 실행
