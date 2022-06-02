@@ -108,7 +108,8 @@ export default function MapPage({ $target }) {
       naver.maps.Event.addListener(marker, 'click', function() {
         if (informs[index].getMap()) {
           informs[index].close();
-          clickMap(datas[index]);
+          var result = confirm("리스트로 이동하시겠습니까?");
+          if (result) clickMap(datas[index]);
         } else {
           informs[index].open(map, marker);
         }

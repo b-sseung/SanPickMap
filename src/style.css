@@ -204,3 +204,27 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 670px) {
+    .map {
+        width: 90vw;
+    }
+
+    .listBox {
+        width: 90vw;
+        font-size: 10px;
+    }
+
+    .listBox .title {
+        font-size: 13px;
+    }
+
+    .filterBox {
+        font-size: 10px;
+    }
+    .filter select {
+        margin-right: 10px;
+    }
+
+
+}
