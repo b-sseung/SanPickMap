@@ -71,9 +71,9 @@ export default function MapPage({ $target }) {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
-
     markers = Array();
     datas = Array();
+    informs = Array();
     for (var i = 0; i < pickList.length; i++) {
       var c = pickList[i][1].split(" ");
       var f = pickList[i][2];
@@ -102,7 +102,7 @@ export default function MapPage({ $target }) {
       informs.push(infowindow);
     }
     var num = Math.floor(Math.random() * datas.length);
-    map.setCenter(new naver.maps.LatLng(pickList[num][3], pickList[num][4]));
+    map.setCenter(new naver.maps.LatLng(datas[num][3], datas[num][4]));
 
     markers.forEach((marker, index) => {
       naver.maps.Event.addListener(marker, 'click', function() {
