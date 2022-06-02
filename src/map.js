@@ -50,7 +50,7 @@ export default function MapPage({ $target }) {
   }
   var map = new naver.maps.Map('map', mapOptions);
 
-  var locationBtnHtml = '<img class="locationBtn" src="/docs/src/img/locationButton.png">';
+  var locationBtnHtml = '<img class="locationBtn" src="src/img/locationButton.png">';
   naver.maps.Event.once(map, 'init', function() {
     //customControl 객체 이용하기
     var customControl = new naver.maps.CustomControl(locationBtnHtml, {

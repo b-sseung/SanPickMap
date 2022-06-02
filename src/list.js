@@ -79,7 +79,7 @@ export default function ListPage({ $target }) {
             t.innerText = datas[i][2];
             n.innerText = datas[i][0];
             a.innerText = datas[i][1];
-            s.src = '/docs/src/img/searchIcon.png';
+            s.src = 'src/img/searchIcon.png';
 
             box.append(t, n, a, s);
             listBox.appendChild(box);
