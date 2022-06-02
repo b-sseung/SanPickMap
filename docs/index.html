@@ -9,8 +9,33 @@
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=c9s8c7cwp9"></script>
 </head>
 <body>
-  <div class="App"></div>
-  
+  <div class="App">
+    <div class="headBox">
+      <p class="title">SanPick</p>
+    </div>
+    <div class="filterBox">
+      <div class="buttonBox">
+        <p class="button">검색 조건 ▼</p>
+      </div>
+      <div class="filter">
+        <p class="fTitle">지역</p>
+        <select class="city" name="city">
+          <option value="all" selected>전체</option>
+        </select>
+        <p class="fTitle">음식 종류</p>
+        <select class="food" name="food">
+          <option value="all" selected>전체</option>
+        </select>
+        <p class="fTitle">정렬</p>
+        <select class="sort" name="sort">
+          <option value="asc" selected>ㄱ~ㅎ순</option>
+          <option value="desc">ㅎ~ㄱ순</option>
+        </select>
+        <p class="reset">초기화</p>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/store.js"></script>
   <script type="module" src="/src/map.js"></script>
   <script type="module" src="/src/main.js"></script>
 </body>
