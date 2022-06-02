@@ -95,5 +95,16 @@ sort.addEventListener('change', function() {
     listPage.createList(c, f, s);
 });
 
+export const clickList = function(data) {
+    var xy = map.getBoundingClientRect();
+    window.scrollTo(xy.x, xy.y);
+    mapPage.moveCenter(data);
+}
+
+export const clickMap = function(data) {
+    var xy = listPage.moveList(data);
+    window.scrollTo(xy.x, xy.y);
+}
+
 // window.history.pushState(undefined, "타이틀", "/home");
 

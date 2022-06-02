@@ -1,4 +1,5 @@
 import { pickList } from "./store.js";
+import { clickList } from "./main.js";
 
 export default function ListPage({ $target }) {
 
@@ -78,15 +79,61 @@ export default function ListPage({ $target }) {
             t.innerText = datas[i][2];
             n.innerText = datas[i][0];
             a.innerText = datas[i][1];
-            s.src = '/src/img/searchIcon.png';
+            s.src = '/docs/src/img/searchIcon.png';
 
             box.append(t, n, a, s);
             listBox.appendChild(box);
 
             lists.push(box);
         }
+
+        lists.forEach((list, index) => {
+            const t = list.querySelector(".type");
+            const n = list.querySelector('.name');
+            const a = list.querySelector('.address');
+            const s = list.querySelector('.search');
+
+            t.addEventListener('click', function() {
+                clickList(datas[index]);
+            });
+
+            n.addEventListener('click', function() {
+                clickList(datas[index]);
+            });
+
+            a.addEventListener('click', function() {
+                clickList(datas[index]);
+            });
+
+            s.addEventListener('click', function() {
+                var link = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=";
+                var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산"];
+                var c = datas[index][1].split(" ");
+                var city = c[0];
+                if (big.indexOf(c[0]) == -1) {
+                    city = c[1].substring(0, c[1].length-1);
+                }
+                window.open(link + encodeURI(city + " " + datas[index][0]));
+            });
+        })
     }
 
+    this.moveList = function(data) {
+        for (var i = 0; i < datas.length; i++) {
+            if (datas[i][1] === data[1]) {
+                this.changeColor(i);
+                return lists[i].getBoundingClientRect();
+            }
+        }
+    }
+
+    this.changeColor = function(index) {
+        const n = lists[index].querySelector('.name');
+        n.style.color = "red";
+
+        setTimeout(function() {
+            n.style.color = "black";
+        }, 15000);
+    }
     this.createList('all', 'all', 'asc');
-//   ["카페야그", "전남 담양군 창평면 의병로 37", "카페", "35.2308827", "127.0089997"],
 } 

@@ -1,5 +1,5 @@
 import { pickList } from "./store.js";
-
+import { clickMap } from "./main.js"
 export default function MapPage({ $target }) {
   var latitude, longitude;
   const mapContent = document.createElement("div");
@@ -50,7 +50,7 @@ export default function MapPage({ $target }) {
   }
   var map = new naver.maps.Map('map', mapOptions);
 
-  var locationBtnHtml = '<img class="locationBtn" src="/src/img/locationButton.png">';
+  var locationBtnHtml = '<img class="locationBtn" src="/docs/src/img/locationButton.png">';
   naver.maps.Event.once(map, 'init', function() {
     //customControl 객체 이용하기
     var customControl = new naver.maps.CustomControl(locationBtnHtml, {
@@ -65,6 +65,7 @@ export default function MapPage({ $target }) {
   });
   
   var markers = Array();
+  var informs = Array();
   var datas = Array();
   this.createMarker = function(city, food) {
     for (var i = 0; i < markers.length; i++) {
@@ -90,13 +91,41 @@ export default function MapPage({ $target }) {
         map: map
       });
 
+      var contentString = 
+        '<div class="information"><div>' + pickList[i][0] + '</div></div>';
+      var infowindow = new naver.maps.InfoWindow({
+        content: contentString
+      });
+
       markers.push(marker);
       datas.push(pickList[i]);
+      informs.push(infowindow);
+    }
+    var num = Math.floor(Math.random() * datas.length);
+    map.setCenter(new naver.maps.LatLng(pickList[num][3], pickList[num][4]));
 
-      // console.log(markers.length)
-      if (markers.length === 1) {
-        // console.log(pickList[i][3], pickList[i][4]);
-        map.setCenter(new naver.maps.LatLng(pickList[i][3], pickList[i][4]));
+    markers.forEach((marker, index) => {
+      naver.maps.Event.addListener(marker, 'click', function() {
+        if (informs[index].getMap()) {
+          informs[index].close();
+          clickMap(datas[index]);
+        } else {
+          informs[index].open(map, marker);
+        }
+      });
+    });
+  }
+
+  this.moveCenter = function(data) {
+    map.setCenter(new naver.maps.LatLng(data[3], data[4]));
+
+    for (var i = 0; i < datas.length; i++) {
+      if (datas[i][1] === data[1]) {
+        if (informs[i].getMap()) {
+          informs[i].close();
+        } else {
+          informs[i].open(map, markers[i]);
+        }
       }
     }
   }
