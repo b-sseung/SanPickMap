@@ -23,7 +23,7 @@ for (var i = 0; i < pickList.length; i++) {
     var c = pickList[i][1].split(" ");
     var cName = '';
     var f = pickList[i][2];
-    var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산"];
+    var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산", "울산"];
     if (big.indexOf(c[0]) != -1) {
         cName = c[0] 
     } else {
