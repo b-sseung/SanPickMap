@@ -92,7 +92,7 @@ export default function MapPage({ $target }) {
       });
 
       var contentString = 
-        '<div class="information"><div>' + pickList[i][0] + '</div></div>';
+        `<div class="information"><div>${pickList[i][0]}</div></div>`;
       var infowindow = new naver.maps.InfoWindow({
         content: contentString
       });

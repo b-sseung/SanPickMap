@@ -1,15 +1,19 @@
-const express = require('express');
-const app = express();
-const PORT = 5500;
+const jsonServer = require('json-server')
+const server = jsonServer.create()
+const path = require('path')
+const router = jsonServer.router(path.join(__dirname, 'db.json'))
+const middlewares = jsonServer.defaults()
 
-app.use(express.static(__dirname + "/src", {
-  extensions: ['html', 'htm'],
-}));
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/src/main.html");
-});
+// Set default middlewares (logger, static, cors and no-cache)
+server.use(middlewares)
 
-// 서버 실행
-app.listen(PORT, function() {
-  console.log(PORT);
-});
+// To handle POST, PUT and PATCH you need to use a body-parser
+// You can use the one used by JSON Server
+server.use(jsonServer.bodyParser)
+
+server.use(router)
+
+let port = 80;
+server.listen(port, () => {
+  console.log(`JSON Server is running, port(${port})`)
+})

@@ -7,28 +7,12 @@ export default function ListPage({ $target }) {
     listBox.className = 'listBox';
     $target.appendChild(listBox);
 
-    const title = document.createElement('div');
-    title.className = 'title';
-    const lType = document.createElement('p');
-    lType.className = 'type';
-    lType.innerText = '종류';
-    const lName = document.createElement('p');
-    lName.className = 'name';
-    lName.innerText = '가게명';
-    const lAddress = document.createElement('p');
-    lAddress.className = 'address';
-    lAddress.innerText = '주소';
+    const title = `<div class="title"><p class="type">종류</p><p class="name">가게명</p><p class="address">주소</p></div>`
 
-    title.append(lType, lName, lAddress);
-    listBox.appendChild(title);
-
-    var lists = Array();
     var datas = Array();
+
     this.createList = function(city, food, sort) {
-        for (var i = 0; i < lists.length; i++) {
-            listBox.removeChild(lists[i]);
-        }
-        lists = Array();
+        listBox.innerHTML = '';
         datas = Array();
 
         for (var i = 0; i < pickList.length; i++) {
@@ -64,58 +48,32 @@ export default function ListPage({ $target }) {
             }
         })
 
-        for (var i = 0; i < datas.length; i++) {
-            const box = document.createElement('div');
-            box.className = 'list';
-            const t = document.createElement('p');
-            t.className = 'type';
-            const n = document.createElement('p');
-            n.className = 'name';
-            const a = document.createElement('p');
-            a.className = 'address';
-            const s = document.createElement('img');
-            s.className = 'search';
+        const listData = datas.map((data, index) => {
+            return  `
+                <div class="list" data-index="${index}">
+                    <p class="type">${data[2]}</p>
+                    <p class="name">${data[0]}</p>
+                    <p class="address">${data[1]}</p>
+                    <img class="search" src="src/img/searchIcon.png">
+                </div>
+            `
+        }).join('');
 
-            t.innerText = datas[i][2];
-            n.innerText = datas[i][0];
-            a.innerText = datas[i][1];
-            s.src = 'src/img/searchIcon.png';
+        listBox.innerHTML = `${title}${listData}`;
 
-            box.append(t, n, a, s);
-            listBox.appendChild(box);
-
-            lists.push(box);
-        }
-
-        lists.forEach((list, index) => {
-            const t = list.querySelector(".type");
-            const n = list.querySelector('.name');
-            const a = list.querySelector('.address');
-            const s = list.querySelector('.search');
-
-            t.addEventListener('click', function() {
-                clickList(datas[index]);
-            });
-
-            n.addEventListener('click', function() {
-                clickList(datas[index]);
-            });
-
-            a.addEventListener('click', function() {
-                clickList(datas[index]);
-            });
-
-            s.addEventListener('click', function() {
+        listBox.addEventListener('click', e => {
+            if (e.target.className === 'search') {
                 var link = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=";
-                var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산"];
+                var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산", "울산"];
                 var c = datas[index][1].split(" ");
-                var city = c[0];
-                if (big.indexOf(c[0]) == -1) {
-                    city = c[1].substring(0, c[1].length-1);
-                }
+                var city = big.indexOf(c[0]) == -1 ? c[1].substring(0, c[1].length-1) : c[0];
                 window.open(link + encodeURI(city + " " + datas[index][0]));
-            });
-        })
+                return;
+            }
+
+            const { index } = e.target.closest('.list').dataset;
+            clickList(datas[index]);
+        });
     }
 
     this.moveList = function(data) {
