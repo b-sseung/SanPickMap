@@ -1,10 +1,12 @@
 import ListPage from "./list.js";
 import MapPage from "./map.js";
-import { pickList } from "./store.js";
+import { requestList } from "./store.js";
+
+const pickList = await requestList('store');
 
 const target = document.querySelector(".App");
-const mapPage = new MapPage({$target: target});
-const listPage = new ListPage({$target: target});
+const mapPage = new MapPage({$target: target, pickList});
+const listPage = new ListPage({$target: target, pickList});
 
 const filterButton = document.querySelector(".filterBox .button");
 const filter = document.querySelector(".filter");
@@ -20,8 +22,8 @@ var cityList = new Array();
 var foodList = new Array();
 
 for (var i = 0; i < pickList.length; i++) {
-    var c = pickList[i][1].split(" ");
-    var f = pickList[i][2];
+    var c = pickList[i]['address'].split(" ");
+    var f = pickList[i]['type'];
     var big = ["서울", "세종", "인천", "대전", "대구", "광주", "부산", "울산"];
     var cName = big.indexOf(c[0]) != -1 ? c[0] : c[1].substring(0, c[1].length-1);
 

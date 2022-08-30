@@ -1,6 +1,6 @@
-import { pickList } from "./store.js";
 import { clickMap } from "./main.js"
-export default function MapPage({ $target }) {
+
+export default function MapPage({ $target, pickList }) {
   var latitude, longitude;
   const mapContent = document.createElement("div");
   mapContent.id = "map";
@@ -75,8 +75,8 @@ export default function MapPage({ $target }) {
     datas = Array();
     informs = Array();
     for (var i = 0; i < pickList.length; i++) {
-      var c = pickList[i][1].split(" ");
-      var f = pickList[i][2];
+      var c = pickList[i]['address'].split(" ");
+      var f = pickList[i]['type'];
       
       if (city != 'all') {
         if (c[0].indexOf(city) != 0 && c[1].indexOf(city) != 0) continue;
@@ -87,12 +87,12 @@ export default function MapPage({ $target }) {
       }
 
       var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(pickList[i][3], pickList[i][4]),
+        position: new naver.maps.LatLng(pickList[i]['longitude'], pickList[i]['latitude']),
         map: map
       });
 
       var contentString = 
-        `<div class="information"><div>${pickList[i][0]}</div></div>`;
+        `<div class="information"><div>${pickList[i]['name']}</div></div>`;
       var infowindow = new naver.maps.InfoWindow({
         content: contentString
       });
@@ -102,7 +102,7 @@ export default function MapPage({ $target }) {
       informs.push(infowindow);
     }
     var num = Math.floor(Math.random() * datas.length);
-    map.setCenter(new naver.maps.LatLng(datas[num][3], datas[num][4]));
+    map.setCenter(new naver.maps.LatLng(datas[num]['longitude'], datas[num]['latitude']));
 
     markers.forEach((marker, index) => {
       naver.maps.Event.addListener(marker, 'click', function() {
@@ -118,10 +118,10 @@ export default function MapPage({ $target }) {
   }
 
   this.moveCenter = function(data) {
-    map.setCenter(new naver.maps.LatLng(data[3], data[4]));
+    map.setCenter(new naver.maps.LatLng(data['longitude'], data['latitude']));
 
     for (var i = 0; i < datas.length; i++) {
-      if (datas[i][1] === data[1]) {
+      if (datas[i]['address'] === data['address']) {
         if (informs[i].getMap()) {
           informs[i].close();
         } else {
